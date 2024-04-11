@@ -9,4 +9,4 @@ services:
       POSTGRES_USER: danis
       POSTGRES_PASSWORD: danis
     ports:
-      - "5431:5431"
+      - "5431:5432"
