@@ -5,7 +5,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
-@Entity(name = "Products")
+@Entity(name = "products")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -23,6 +23,12 @@ public class ProductEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "subcategory_id")
+    private SubcategoryEntity subcategory;
+
+    private float weight;
 
     private String description;
 
