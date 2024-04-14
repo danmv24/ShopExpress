@@ -15,6 +15,10 @@ public class ProductView {
 
     private String categoryName;
 
+    private String subcategoryName;
+
+    private float weight;
+
     private String description;
 
     private BigDecimal price;
