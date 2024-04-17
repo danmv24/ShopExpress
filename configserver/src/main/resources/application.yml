@@ -13,3 +13,6 @@ spring:
       server:
         native:
           search-locations: classpath:/config
+
+encrypt:
+  key: kjeoqnvkngio3498tyknvlejnqvzmzvn
