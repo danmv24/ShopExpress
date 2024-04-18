@@ -10,3 +10,13 @@ services:
       POSTGRES_PASSWORD: danis
     ports:
       - "5431:5432"
+
+  postgres-order:
+    image: postgres:13.3
+    container_name: postgres-order
+    environment:
+      POSTGRES_DB: orders
+      POSTGRES_USER: danis
+      POSTGRES_PASSWORD: danis
+    ports:
+      - "5432:5432"
