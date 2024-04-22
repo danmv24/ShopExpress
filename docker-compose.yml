@@ -20,3 +20,13 @@ services:
       POSTGRES_PASSWORD: danis
     ports:
       - "5432:5432"
+
+  postgres-inventory:
+    image: postgres:13.3
+    container_name: postgres-inventory
+    environment:
+      POSTGRES_DB: inventory
+      POSTGRES_USER: danis
+      POSTGRES_PASSWORD: danis
+    ports:
+      - "5433:5432"
