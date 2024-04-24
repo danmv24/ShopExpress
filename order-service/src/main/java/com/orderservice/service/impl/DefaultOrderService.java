@@ -5,7 +5,6 @@ import com.orderservice.entity.OrderEntity;
 import com.orderservice.form.OrderForm;
 import com.orderservice.mapper.OrderMapper;
 import com.orderservice.repository.OrderDetailRepository;
-import com.orderservice.repository.OrderRepository;
 import com.orderservice.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,8 +17,6 @@ import java.util.List;
 @Transactional
 @AllArgsConstructor
 public class DefaultOrderService implements OrderService {
-
-    private final OrderRepository orderRepository;
 
     private final OrderDetailRepository orderDetailRepository;
 
