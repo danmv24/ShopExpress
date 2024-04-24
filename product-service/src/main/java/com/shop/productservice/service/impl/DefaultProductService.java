@@ -1,5 +1,7 @@
 package com.shop.productservice.service.impl;
 
+import com.shop.productservice.exception.CategoryNotFoundException;
+import com.shop.productservice.exception.SubcategoryNotFoundException;
 import com.shop.productservice.form.ProductForm;
 import com.shop.productservice.mapper.ProductMapper;
 import com.shop.productservice.model.CategoryEntity;
@@ -11,6 +13,7 @@ import com.shop.productservice.repository.SubcategoryRepository;
 import com.shop.productservice.service.ProductService;
 import com.shop.productservice.view.ProductView;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,8 +31,10 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public void addProduct(ProductForm productForm) {
-        CategoryEntity category = categoryRepository.findByCategoryName(productForm.getCategoryName()).orElseThrow();
-        SubcategoryEntity subcategory = subcategoryRepository.findBySubcategoryName(productForm.getSubcategoryName()).orElseThrow();
+        CategoryEntity category = categoryRepository.findByCategoryName(productForm.getCategoryName())
+                .orElseThrow(() -> new CategoryNotFoundException("Категория с названием " + productForm.getCategoryName() + "не существует!!!", HttpStatus.NOT_FOUND));
+        SubcategoryEntity subcategory = subcategoryRepository.findBySubcategoryName(productForm.getSubcategoryName())
+                .orElseThrow(() -> new SubcategoryNotFoundException("Подкатегория с названием " + productForm.getSubcategoryName() + "не существует!!!", HttpStatus.NOT_FOUND));
 
         productRepository.save(ProductMapper.toEntity(productForm, category, subcategory));
     }
