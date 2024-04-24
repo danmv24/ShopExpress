@@ -18,7 +18,7 @@ public class OrderDetailEntity {
     @Column(name = "order_detail_id")
     private Long orderDetailId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private OrderEntity order;
 
