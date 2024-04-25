@@ -8,6 +8,7 @@ import com.orderservice.form.OrderForm;
 import com.orderservice.form.OrderItem;
 import com.orderservice.mapper.OrderMapper;
 import com.orderservice.repository.OrderDetailRepository;
+import com.orderservice.response.InventoryResponse;
 import com.orderservice.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -54,7 +55,7 @@ public class DefaultOrderService implements OrderService {
 
         List<Long> productsId = productClient.getProductsId(productNames);
 
-//        boolean isInStock = inventoryClient.isInStock();
+        List<InventoryResponse> inventoryResponses = inventoryClient.getProducts(productsId);
 
         BigDecimal totalPrice = orderForm.getOrderItems().stream()
                 .map(orderItem -> orderItem.getPrice().multiply(BigDecimal.valueOf(orderItem.getQuantity())))
