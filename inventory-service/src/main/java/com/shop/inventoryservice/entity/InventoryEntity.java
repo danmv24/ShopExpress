@@ -19,5 +19,5 @@ public class InventoryEntity {
     private Long productId;
 
     @Column(name = "quantity")
-    private Integer quantity;
+    private int quantity;
 }
