@@ -47,5 +47,12 @@ public class DefaultProductService implements ProductService {
                 .map(ProductMapper::toView).collect(Collectors.toList());
     }
 
+    @Override
+    public List<Long> getProductIdViaProductName(List<String> productNames) {
+        return productNames.stream()
+                .map(productRepository::findIdByProductName)
+                .toList();
+    }
+
 
 }
