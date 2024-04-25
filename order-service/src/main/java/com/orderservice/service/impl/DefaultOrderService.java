@@ -52,7 +52,7 @@ public class DefaultOrderService implements OrderService {
                 .map(OrderItem::getProductName)
                 .toList();
 
-        List<Long> productsId = productClient.getProductId(productNames);
+        List<Long> productsId = productClient.getProductsId(productNames);
 
 //        boolean isInStock = inventoryClient.isInStock();
 

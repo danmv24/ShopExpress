@@ -10,6 +10,6 @@ import java.util.List;
 public interface ProductClient {
 
     @GetMapping("/api/products/getProductId")
-    List<Long> getProductId(@RequestParam(name = "productNames") List<String> productNames);
+    List<Long> getProductsId(@RequestParam(name = "productNames") List<String> productNames);
 
 }
