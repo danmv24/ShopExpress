@@ -10,6 +10,7 @@ import com.shop.productservice.model.SubcategoryEntity;
 import com.shop.productservice.repository.CategoryRepository;
 import com.shop.productservice.repository.ProductRepository;
 import com.shop.productservice.repository.SubcategoryRepository;
+import com.shop.productservice.response.ProductResponse;
 import com.shop.productservice.service.ProductService;
 import com.shop.productservice.view.ProductView;
 import lombok.AllArgsConstructor;
@@ -48,9 +49,12 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public List<Long> getProductIdViaProductName(List<String> productNames) {
-        return productNames.stream()
-                .map(productRepository::findIdByProductName)
+    public List<ProductResponse> getProductByProductName(List<String> productNames) {
+        return productRepository.findByProductNameIn(productNames).stream()
+                .map(product -> ProductResponse.builder()
+                        .productId(product.getId())
+                        .productName(product.getProductName())
+                        .build())
                 .toList();
     }
 
