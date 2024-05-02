@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(value = "product-service", url = "${products.url}")
+@FeignClient("product-service")
 public interface ProductClient {
 
     @GetMapping("/api/products/getProduct")
