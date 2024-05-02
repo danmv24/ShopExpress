@@ -1,6 +1,7 @@
 package com.shop.productservice.controller;
 
 import com.shop.productservice.form.ProductForm;
+import com.shop.productservice.response.ProductResponse;
 import com.shop.productservice.service.ProductService;
 import com.shop.productservice.view.ProductView;
 import lombok.AllArgsConstructor;
@@ -28,10 +29,10 @@ public class ProductController {
         return productService.getProducts();
     }
 
-    @GetMapping("/getProductId")
+    @GetMapping("/getProduct")
     @Transactional(readOnly = true)
-    public List<Long> getProductIdViaProductName(@RequestParam(name = "productNames") List<String> productNames) {
-        return productService.getProductIdViaProductName(productNames);
+    public List<ProductResponse> getProduct(@RequestParam(name = "productNames") List<String> productNames) {
+        return productService.getProductByProductName(productNames);
     }
 
 }
