@@ -9,6 +9,7 @@ import com.orderservice.form.OrderItem;
 import com.orderservice.mapper.OrderMapper;
 import com.orderservice.repository.OrderDetailRepository;
 import com.orderservice.response.InventoryResponse;
+import com.orderservice.response.ProductResponse;
 import com.orderservice.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -53,9 +54,30 @@ public class DefaultOrderService implements OrderService {
                 .map(OrderItem::getProductName)
                 .toList();
 
-        List<Long> productsId = productClient.getProductsId(productNames);
+        List<ProductResponse> products = productClient.getProduct(productNames);
 
-        List<InventoryResponse> inventoryResponses = inventoryClient.getProducts(productsId);
+        List<InventoryResponse> inventoryResponses = inventoryClient.getProducts(products.stream()
+                .map(ProductResponse::getProductId).toList());
+
+        for (OrderItem orderItem : orderForm.getOrderItems()) {
+            ProductResponse product = products.stream()
+                    .filter(p -> p.getProductName().equals(orderItem.getProductName()))
+                    .findFirst()
+                    .orElseThrow();
+
+            InventoryResponse inventoryResponse = inventoryResponses.stream()
+                    .filter(ir -> ir.getProductId().equals(product.getProductId()))
+                    .findFirst()
+                    .orElseThrow();
+
+            int requestedQuantity = orderItem.getQuantity();
+            int availableQuantity = inventoryResponse.getQuantity();
+
+            if (requestedQuantity > availableQuantity) {
+                throw new RuntimeException("Not enough quantity available for product: " + orderItem.getProductName());
+            }
+
+        }
 
         BigDecimal totalPrice = orderForm.getOrderItems().stream()
                 .map(orderItem -> orderItem.getPrice().multiply(BigDecimal.valueOf(orderItem.getQuantity())))
