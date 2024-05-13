@@ -5,12 +5,13 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface InventoryRepository extends CrudRepository<InventoryEntity, Long> {
 
     List<InventoryEntity> findByProductIdIn(List<Long> productsId);
 
-//    boolean existsByProductIdAndQuantityIsGreaterThanEqual(Long productId, int quantity);
+    Optional<InventoryEntity> findByProductId(Long id);
 
 }
