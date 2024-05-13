@@ -4,6 +4,7 @@ import com.shop.productservice.form.ProductForm;
 import com.shop.productservice.model.CategoryEntity;
 import com.shop.productservice.model.ProductEntity;
 import com.shop.productservice.model.SubcategoryEntity;
+import com.shop.productservice.response.ProductResponse;
 import com.shop.productservice.view.ProductView;
 
 public class ProductMapper {
@@ -27,6 +28,13 @@ public class ProductMapper {
                 .weight(product.getWeight())
                 .description(product.getDescription())
                 .price(product.getPrice())
+                .build();
+    }
+
+    public static ProductResponse toProductResponse(ProductEntity product) {
+        return ProductResponse.builder()
+                .productId(product.getId())
+                .productName(product.getProductName())
                 .build();
     }
 
