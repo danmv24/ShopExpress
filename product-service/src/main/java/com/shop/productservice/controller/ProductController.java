@@ -6,7 +6,6 @@ import com.shop.productservice.service.ProductService;
 import com.shop.productservice.view.ProductView;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,10 +28,14 @@ public class ProductController {
         return productService.getProducts();
     }
 
+    @GetMapping("/getProducts")
+    public List<ProductResponse> getProductsByNames(@RequestParam(name = "productNames") List<String> productNames) {
+        return productService.getProductsByProductNames(productNames);
+    }
+
     @GetMapping("/getProduct")
-    @Transactional(readOnly = true)
-    public List<ProductResponse> getProduct(@RequestParam(name = "productNames") List<String> productNames) {
-        return productService.getProductByProductName(productNames);
+    public ProductResponse getProduct(@RequestParam(name = "productName") String productName) {
+        return productService.getProduct(productName);
     }
 
 }
