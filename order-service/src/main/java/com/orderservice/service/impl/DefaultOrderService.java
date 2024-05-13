@@ -50,6 +50,24 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     public void createOrder(OrderForm orderForm) {
+//        List<String> productNames = orderForm.getOrderItems().stream()
+//                .map(OrderItem::getProductName)
+//                .toList();
+//
+//        for (String productName : productNames) {
+//            ProductResponse product = productClient.get(productName);
+//            InventoryResponse inventory = inventoryClient.get(product.getProductId());
+//
+//            for (OrderItem orderItem : orderForm.getOrderItems()) {
+//                if (product.getProductName().equals(orderItem.getProductName()) && inventory.getQuantity() < orderItem.getQuantity()) {
+//                    throw new RuntimeException("Not enough quantity available for product: " + orderItem.getProductName());
+//                }
+//            }
+//        }
+//
+//        BigDecimal totalPrice = calculateTotalPrice(orderForm);
+
+
         List<String> productNames = orderForm.getOrderItems().stream()
                 .map(OrderItem::getProductName)
                 .toList();
@@ -79,9 +97,7 @@ public class DefaultOrderService implements OrderService {
 
         }
 
-        BigDecimal totalPrice = orderForm.getOrderItems().stream()
-                .map(orderItem -> orderItem.getPrice().multiply(BigDecimal.valueOf(orderItem.getQuantity())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal totalPrice = calculateTotalPrice(orderForm);
 
         OrderEntity orderEntity = OrderMapper.toOrderEntity(totalPrice, DefaultDateTimeFormatterService.formatDateTime());
 
@@ -90,6 +106,12 @@ public class DefaultOrderService implements OrderService {
                 .toList();
 
         orderDetailRepository.saveAll(orderDetailEntities);
+    }
+
+    private BigDecimal calculateTotalPrice(OrderForm orderForm) {
+        return orderForm.getOrderItems().stream()
+                .map(orderItem -> orderItem.getPrice().multiply(BigDecimal.valueOf(orderItem.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 }
