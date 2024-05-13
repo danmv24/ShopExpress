@@ -12,6 +12,7 @@ public interface ProductService {
 
     List<ProductView> getProducts();
 
-    List<ProductResponse> getProductByProductName(List<String> productNames);
+    List<ProductResponse> getProductsByProductNames(List<String> productNames);
 
+    ProductResponse getProduct(String productName);
 }

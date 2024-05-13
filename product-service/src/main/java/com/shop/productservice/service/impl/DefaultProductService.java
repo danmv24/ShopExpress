@@ -16,6 +16,7 @@ import com.shop.productservice.view.ProductView;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,13 +50,17 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public List<ProductResponse> getProductByProductName(List<String> productNames) {
+    @Transactional(readOnly = true)
+    public List<ProductResponse> getProductsByProductNames(List<String> productNames) {
         return productRepository.findByProductNameIn(productNames).stream()
-                .map(product -> ProductResponse.builder()
-                        .productId(product.getId())
-                        .productName(product.getProductName())
-                        .build())
-                .toList();
+                .map(ProductMapper::toProductResponse).toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ProductResponse getProduct(String productName) {
+        ProductEntity product = productRepository.findByProductName(productName).orElseThrow();
+        return ProductMapper.toProductResponse(product);
     }
 
 
