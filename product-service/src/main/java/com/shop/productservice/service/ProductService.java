@@ -10,7 +10,7 @@ public interface ProductService {
 
     void addProduct(ProductForm productForm);
 
-    List<ProductView> getProducts();
+    List<ProductView> getAllProducts();
 
     List<ProductResponse> getProductsByProductNames(List<String> productNames);
 

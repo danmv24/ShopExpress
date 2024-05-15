@@ -42,7 +42,7 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public List<ProductView> getProducts() {
+    public List<ProductView> getAllProducts() {
         List<ProductEntity> products = productRepository.findAll();
 
         return products.stream()
