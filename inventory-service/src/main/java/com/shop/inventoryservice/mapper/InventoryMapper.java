@@ -16,7 +16,7 @@ public class InventoryMapper {
 
     public static InventoryEntity toEntity(ProductResponse product, InventoryForm inventoryForm) {
         return InventoryEntity.builder()
-                .productId(product.getId())
+                .productId(product.getProductId())
                 .quantity(inventoryForm.getQuantity())
                 .build();
     }

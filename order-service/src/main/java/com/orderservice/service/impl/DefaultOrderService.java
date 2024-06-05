@@ -50,29 +50,11 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     public void createOrder(OrderForm orderForm) {
-//        List<String> productNames = orderForm.getOrderItems().stream()
-//                .map(OrderItem::getProductName)
-//                .toList();
-//
-//        for (String productName : productNames) {
-//            ProductResponse product = productClient.get(productName);
-//            InventoryResponse inventory = inventoryClient.get(product.getProductId());
-//
-//            for (OrderItem orderItem : orderForm.getOrderItems()) {
-//                if (product.getProductName().equals(orderItem.getProductName()) && inventory.getQuantity() < orderItem.getQuantity()) {
-//                    throw new RuntimeException("Not enough quantity available for product: " + orderItem.getProductName());
-//                }
-//            }
-//        }
-//
-//        BigDecimal totalPrice = calculateTotalPrice(orderForm);
-
-
         List<String> productNames = orderForm.getOrderItems().stream()
                 .map(OrderItem::getProductName)
                 .toList();
 
-        List<ProductResponse> products = productClient.getProduct(productNames);
+        List<ProductResponse> products = productClient.getProductsByNames(productNames);
 
         List<InventoryResponse> inventoryResponses = inventoryClient.getProducts(products.stream()
                 .map(ProductResponse::getProductId).toList());
@@ -102,8 +84,13 @@ public class DefaultOrderService implements OrderService {
         OrderEntity orderEntity = OrderMapper.toOrderEntity(totalPrice, DefaultDateTimeFormatterService.formatDateTime());
 
         List<OrderDetailEntity> orderDetailEntities = orderForm.getOrderItems().stream()
-                .map(orderItem -> OrderMapper.toOrderDetailEntity(orderEntity, orderItem))
-                .toList();
+                        .map(orderItem -> {
+                            ProductResponse product = products.stream()
+                                    .filter(p -> p.getProductName().equals(orderItem.getProductName()))
+                                    .findFirst()
+                                    .orElseThrow();
+                            return OrderMapper.toOrderDetailEntity(orderEntity, orderItem, product.getProductId());
+                        }).toList();
 
         orderDetailRepository.saveAll(orderDetailEntities);
     }

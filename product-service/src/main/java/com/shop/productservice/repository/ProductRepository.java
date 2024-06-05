@@ -1,5 +1,6 @@
 package com.shop.productservice.repository;
 
+import com.shop.productservice.model.CategoryEntity;
 import com.shop.productservice.model.ProductEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -15,5 +16,7 @@ public interface ProductRepository extends CrudRepository<ProductEntity, Long> {
     List<ProductEntity> findByProductNameIn(List<String> productNames);
 
     Optional<ProductEntity> findByProductName(String productName);
+
+    List<ProductEntity> findByCategory(CategoryEntity category);
 
 }

@@ -16,10 +16,10 @@ public class OrderMapper {
                 .build();
     }
 
-    public static OrderDetailEntity toOrderDetailEntity(OrderEntity order, OrderItem orderItem) {
+    public static OrderDetailEntity toOrderDetailEntity(OrderEntity order, OrderItem orderItem, Long productId) {
         return OrderDetailEntity.builder()
                 .order(order)
-                .productId(1L)
+                .productId(productId)
                 .quantity(orderItem.getQuantity())
                 .unitPrice(orderItem.getPrice())
                 .build();

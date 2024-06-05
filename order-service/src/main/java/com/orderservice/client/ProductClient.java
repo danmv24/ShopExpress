@@ -10,7 +10,7 @@ import java.util.List;
 @FeignClient("product-service")
 public interface ProductClient {
 
-    @GetMapping("/api/products/getProduct")
-    List<ProductResponse> getProduct(@RequestParam(name = "productNames") List<String> productNames);
+    @GetMapping("/api/products/getProducts")
+    List<ProductResponse> getProductsByNames(@RequestParam(name = "productNames") List<String> productNames);
 
 }

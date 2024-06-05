@@ -63,5 +63,14 @@ public class DefaultProductService implements ProductService {
         return ProductMapper.toProductResponse(product);
     }
 
+    @Override
+    public List<ProductView> getProductsByCategory(String category) {
+        CategoryEntity categoryEntity = categoryRepository.findByCategoryName(category).orElseThrow();
+
+        return productRepository.findByCategory(categoryEntity).stream()
+                .map(ProductMapper::toView)
+                .toList();
+    }
+
 
 }

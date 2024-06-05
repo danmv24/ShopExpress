@@ -24,7 +24,7 @@ public class InventoryController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addProductInInventory(InventoryForm inventoryForm) {
+    public void addProductInInventory(@RequestBody InventoryForm inventoryForm) {
         inventoryService.addProduct(inventoryForm);
     }
 
