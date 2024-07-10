@@ -49,7 +49,7 @@ public class DefaultOrderService implements OrderService {
      * */
 
     @Override
-    public void createOrder(OrderForm orderForm) {
+    public String createOrder(OrderForm orderForm) {
         List<String> productNames = orderForm.getOrderItems().stream()
                 .map(OrderItem::getProductName)
                 .toList();
@@ -93,6 +93,7 @@ public class DefaultOrderService implements OrderService {
                         }).toList();
 
         orderDetailRepository.saveAll(orderDetailEntities);
+        return "Заказ обрабатывается";
     }
 
     private BigDecimal calculateTotalPrice(OrderForm orderForm) {

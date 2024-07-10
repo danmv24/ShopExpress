@@ -4,6 +4,6 @@ import com.orderservice.form.OrderForm;
 
 public interface OrderService {
 
-    void createOrder(OrderForm orderForm);
+    String createOrder(OrderForm orderForm);
 
 }
